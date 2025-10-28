@@ -1,14 +1,11 @@
 package org.aren_rend;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
 public class Main {
     private static boolean isContinue = true;
-
 
     public static void main(String[] args) {
         ShowVariations.showGreeting();
@@ -28,14 +25,10 @@ public class Main {
                         break;
                     case "3":
                         isContinue = false;
-//                        consoleReader.close();
                 }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
-
     }
 }
