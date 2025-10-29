@@ -26,11 +26,14 @@ public class SaveInstance {
     protected static void addNote(BufferedReader consoleReader) {
         try(BufferedWriter fileWriter = new BufferedWriter(new FileWriter(filePath.toFile(), true));
         BufferedReader fileReader = new BufferedReader(new FileReader(filePath.toFile()))) {
-            String note = ". " + consoleReader.readLine();
-            int index = determineLineNumber(findLastLine(fileReader));
-            index++;
-            fileWriter.write(index + note);
-            fileWriter.newLine();
+            String note = consoleReader.readLine();
+            if(!note.isEmpty()) {
+                note = ". " + note;
+                int index = determineLineNumber(findLastLine(fileReader));
+                index++;
+                fileWriter.write(index + note);
+                fileWriter.newLine();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
