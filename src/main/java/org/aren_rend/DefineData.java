@@ -28,8 +28,6 @@ public class DefineData {
             sum += Integer.parseInt(spend);
         }
         spending.clear();
-        int tempSum = sum;
-        sum = 0;
-        return tempSum;
+        return sum;
     }
 }
