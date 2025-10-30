@@ -8,6 +8,9 @@ import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SaveInstance {
 
@@ -26,17 +29,56 @@ public class SaveInstance {
     protected static void addNote(BufferedReader consoleReader) {
         try(BufferedWriter fileWriter = new BufferedWriter(new FileWriter(filePath.toFile(), true));
         BufferedReader fileReader = new BufferedReader(new FileReader(filePath.toFile()))) {
+
             String note = consoleReader.readLine();
+            String date = determineExistsDateNotes(fileReader);
+
             if(!note.isEmpty()) {
+                if(date != null) {
+                    fileWriter.write(date);
+                    fileWriter.newLine();
+                }
                 note = ". " + note;
-                int index = determineLineNumber(findLastLine(fileReader));
-                index++;
-                fileWriter.write(index + note);
+                String lastLine = findLastLine();
+                if(!lastLine.equals(date)) {
+                    int index = determineLineNumber(lastLine);
+                    index++;
+                    fileWriter.write(index + note);
+                    fileWriter.newLine();
+                } else {
+                    fileWriter.write("0. " + note);
+                    fileWriter.newLine();
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected static void editNote(String oldLine, String newLine) {
+        Path tempFilePath = Paths.get(filePath + ".tmp");
+        try(BufferedReader fileReader = new BufferedReader(new FileReader(filePath.toFile()));
+        BufferedWriter fileWriter = new BufferedWriter(new FileWriter(tempFilePath.toFile(), true))) {
+            String currentLine;
+            while((currentLine = fileReader.readLine()) != null) {
+                if(currentLine.equals(oldLine)) {
+                    fileWriter.write(newLine);
+                } else {
+                    fileWriter.write(currentLine);
+                }
                 fileWriter.newLine();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        try {
+            Files.move(tempFilePath, filePath, StandardCopyOption.REPLACE_EXISTING);
+            Files.deleteIfExists(tempFilePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     protected static void showNotes() {
@@ -50,10 +92,10 @@ public class SaveInstance {
         }
     }
 
-    protected static String findLastLine(BufferedReader fileReader) {
+    protected static String findLastLine() {
         String lastLine = "";
         String currentLine;
-        try {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(filePath.toFile()))){
             while((currentLine = fileReader.readLine()) != null) {
                 lastLine = currentLine;
             }
@@ -65,7 +107,27 @@ public class SaveInstance {
 
     protected static int determineLineNumber(String line) {
         int pointIndex = line.indexOf('.');
-        return pointIndex != -1 ? Integer.parseInt(line.substring(0, pointIndex)) : 0;
+        return pointIndex != -1 ? Integer.parseInt(line.substring(0, pointIndex).trim()) : 0;
+    }
+
+    protected static String determineExistsDateNotes(BufferedReader fileReader) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("---dd.MM.yyyy---");
+        String currentDate = LocalDate.now().format(formatter);
+        String currentLine;
+        boolean isFound = false;
+        try {
+            while((currentLine = fileReader.readLine()) != null) {
+                if(currentLine.equals(currentDate)) {
+                    isFound = true;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if(!isFound) {
+            return currentDate;
+        }
+        return null;
     }
 
 }

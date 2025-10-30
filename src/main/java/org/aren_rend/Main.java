@@ -18,6 +18,21 @@ public class Main {
                     case "1":
                         ShowVariations.showHistoryTitle();
                         SaveInstance.showNotes();
+                        ShowVariations.showNotesMenu();
+                        switch (consoleReader.readLine()) {
+                            case "1":
+                                System.out.println("Write string, which we will edit:");
+                                String oldLine = consoleReader.readLine();
+                                System.out.println("Write string, which will replace previously:");
+                                String newLine = consoleReader.readLine();
+                                SaveInstance.editNote(oldLine, newLine);
+                                break;
+                            case "2":
+
+                            default:
+                                break;
+
+                        }
                         break;
                     case "2":
                         ShowVariations.showNewNoteTitle();
