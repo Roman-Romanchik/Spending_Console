@@ -28,7 +28,7 @@ public class Main {
                                 SaveInstance.editNote(oldLine, newLine);
                                 break;
                             case "2":
-
+                                System.out.println(DefineData.calculateAllSpending());
                             default:
                                 break;
 
