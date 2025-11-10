@@ -8,15 +8,16 @@ public class Main {
     private static boolean isContinue = true;
 
     public static void main(String[] args) {
-        ShowVariations.showGreeting();
+        SelectionScreen ss = new SelectionScreen();
+        System.out.println(ss.getGreeting());
         SaveInstance.createSavingDataFile();
 
         try(BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in))) {
             while(isContinue) {
-                ShowVariations.showMenu();
+                ss.getMainMenu();
                 switch(consoleReader.readLine()) {
                     case "1":
-                        ShowVariations.showHistoryTitle();
+                        System.out.println(ss.getHistoryTitle());
                         SaveInstance.showNotes();
                         ShowVariations.showNotesMenu();
                         switch (consoleReader.readLine()) {

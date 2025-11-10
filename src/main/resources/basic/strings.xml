@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<strings>
+    <greeting>Welcome to "Track Spending"!</greeting>
+
+    <menu>
+        <mainMenu>
+            <menuTitle>---Main menu | Choose your action---</menuTitle>
+            <newNote>1. Add new note about your spending</newNote>
+            <history>2. View your spending history</history>
+            <exit>3. Exit program</exit>
+        </mainMenu>
+
+        <historyMenu>
+            <menuTitle>---History menu | Choose your action---</menuTitle>
+            <definePeriod>1. Define time period to view</definePeriod>
+            <return>2. Return to Main menu</return>
+        </historyMenu>
+
+        <definePeriodMenu>
+            <day>1. One day</day>
+            <week>2. One week</week>
+            <other>3. Other period</other>
+            <return>4. Return</return>
+            <firstDate>Write date: </firstDate>
+            <secondDate>Write next date: </secondDate>
+        </definePeriodMenu>
+
+        <historyView>
+            <viewTitle>---All your spending for the period---</viewTitle>
+            <editNote>1. Edit note</editNote>
+            <return>2. Return</return>
+        </historyView>
+
+    </menu>
+
+    <returnProcess>
+        <returnToHistoryMenu>1. Return to the History menu</returnToHistoryMenu>
+        <returnToMainMenu>2. Return to the Main menu </returnToMainMenu>
+    </returnProcess>
+
+    <newNoteProcess>
+        <spendingCategories>
+            <title>---Choose category of your spending---</title>
+            <food>Food</food>
+            <sport>Sport</sport>
+            <clothes>Clothes</clothes>
+            <technique>Technique</technique>
+            <office>Office</office>
+            <furniture>Furniture</furniture>
+            <other>Other</other>
+            <otherCategory>Write your category: </otherCategory>
+        </spendingCategories>
+        <spendingName>Write your spending name: </spendingName>
+        <spendingCost>Write your spending cost: </spendingCost>
+        <correctSpelling>Verification note: </correctSpelling>
+        <verification>1 - All right | 2 - Edit</verification>
+    </newNoteProcess>
+
+</strings>
