@@ -17,6 +17,7 @@
         </historyMenu>
 
         <definePeriodMenu>
+            <menuTitle>---Choose time period---</menuTitle>
             <day>1. One day</day>
             <week>2. One week</week>
             <other>3. Other period</other>
@@ -25,12 +26,11 @@
             <secondDate>Write next date: </secondDate>
         </definePeriodMenu>
 
-        <historyView>
+        <historyViewMenu>
             <viewTitle>---All your spending for the period---</viewTitle>
             <editNote>1. Edit note</editNote>
             <return>2. Return</return>
-        </historyView>
-
+        </historyViewMenu>
     </menu>
 
     <returnProcess>
@@ -41,14 +41,13 @@
     <newNoteProcess>
         <spendingCategories>
             <title>---Choose category of your spending---</title>
-            <food>Food</food>
-            <sport>Sport</sport>
-            <clothes>Clothes</clothes>
-            <technique>Technique</technique>
-            <office>Office</office>
-            <furniture>Furniture</furniture>
-            <other>Other</other>
-            <otherCategory>Write your category: </otherCategory>
+            <food>1. Food</food>
+            <sport>2. Sport</sport>
+            <clothes>3. Clothes</clothes>
+            <technique>4. Technique</technique>
+            <office>5. Office</office>
+            <furniture>6. Furniture</furniture>
+            <other>Or write your own category</other>
         </spendingCategories>
         <spendingName>Write your spending name: </spendingName>
         <spendingCost>Write your spending cost: </spendingCost>
