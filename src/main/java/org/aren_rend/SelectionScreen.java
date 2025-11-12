@@ -37,7 +37,7 @@ public class SelectionScreen {
     }
 
     private static void initializeMenus() {
-        initializeMenu(mainMenu, "MainMenu", "menuTitle", "newNote", "history", "exit");
+        initializeMenu(mainMenu, "mainMenu", "menuTitle", "newNote", "history", "exit");
 
         initializeMenu(historyMenu, "historyMenu", "menuTitle", "definePeriod", "return");
 
@@ -63,8 +63,8 @@ public class SelectionScreen {
         );
     }
 
-    private static void initializeMenu(List<String> menu, String menuKey, String titleKey, String... itemKeys) {
-        JsonNode menuNode = rootNode.get(MENU).get(menuKey).get(titleKey);
+    private static void initializeMenu(List<String> menu, String menuKey, String... itemKeys) {
+        JsonNode menuNode = rootNode.get(MENU).get(menuKey);
 
         for (String itemKey : itemKeys) {
             menu.add(menuNode.get(itemKey).asText());
@@ -107,14 +107,15 @@ public class SelectionScreen {
         for (String item : menu) {
             System.out.println(item);
         }
+        System.out.println();
     }
 
     public String getSpendingName() {
-        return getTextFromPath("NewNoteProcess", "spendingName");
+        return getTextFromPath("newNoteProcess", "spendingName");
     }
 
     public String getSpendingCost() {
-        return getTextFromPath("NewNoteProcess", "spendingCost");
+        return getTextFromPath("newNoteProcess", "spendingCost");
     }
 
     public String getCorrectSpelling() {
