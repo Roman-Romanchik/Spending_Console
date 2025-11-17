@@ -5,8 +5,8 @@ public class Session {
 
     public void startApplication() {
         SelectionScreen selectionScreen = new SelectionScreen();
-        selectionScreen.getGreeting();
         Validator validator = new Validator();
+        System.out.println(selectionScreen.getGreeting());
 
         while(isApplicationWork) {
             selectionScreen.displayMainMenu();
@@ -14,8 +14,9 @@ public class Session {
             if(validator.isMenuItem(menuItem, 1, 3)) {
                 switch (menuItem) {
                     case "1":
-                        Notes notes = new Notes();
-                        notes.createNote(selectionScreen, validator);
+                        Note note = new Note();
+                        note.createNote(selectionScreen, validator);
+                        SaveData.save(note.getNote());
                         break;
                     case "2":
                         History history = new History();

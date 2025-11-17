@@ -1,7 +1,5 @@
 package org.aren_rend;
 
-import org.gradle.internal.cc.impl.CheckedFingerprint;
-
 public class History {
     private static boolean isContinue = true;
     public void showHistory(SelectionScreen selectionScreen, Validator validator) {
@@ -9,10 +7,8 @@ public class History {
             selectionScreen.displayHistoryMenu();
             String menuItem = UserInput.readLine();
             chooseHistoryItem(menuItem, selectionScreen, validator);
-            if(isContinue) {
-                showSpending();
-            }
         }
+        isContinue = true;
     }
 
     private void chooseHistoryItem(String menuItem, SelectionScreen selectionScreen, Validator validator) {
@@ -23,6 +19,7 @@ public class History {
                     break;
                 case "2":
                     isContinue = false;
+                    break;
             }
         } else {
             System.out.println("Wrong parameter! Write digit 1 or 2: ");
@@ -37,24 +34,38 @@ public class History {
         if(validator.isMenuItem(menuItem, 1, 4)) {
             switch(menuItem) {
                 case "1":
-                    System.out.println("Input date: ");
+                    System.out.println("Input date(dd.mm.yyyy): ");
                     firstDate = UserInput.readLine();
+                    showSpending(firstDate, "day");
                     break;
                 case "2":
-                    System.out.println("Input first date: ");
+                    System.out.println("Input previously monday date(dd.mm.yyyy): ");
                     firstDate = UserInput.readLine();
-                    System.out.println("Input second date: ");
-                    secondDate = UserInput.readLine();
+                    showSpending(firstDate, "week");
                     break;
                 case "3":
-
+                    System.out.println("Input first date(dd.mm.yyyy): ");
+                    firstDate = UserInput.readLine();
+                    System.out.println("Input second date(dd.mm.yyyy): ");
+                    secondDate = UserInput.readLine();
+                    showSpending(firstDate, secondDate);
+                    break;
+                case "4":
+                    isContinue = false;
+                    break;
             }
         } else {
-            System.out.println("Wrong parameter! Write digit 1 or 2: ");
+            System.out.println("Wrong parameter! Write digit 1 or 4: ");
         }
     }
 
-    private void showSpending() {
+    private void showSpending(String firstDate, String secondDate) {
+        if(secondDate.equals("day")) {
 
+        } else if(secondDate.equals("week")){
+
+        } else {
+
+        }
     }
 }

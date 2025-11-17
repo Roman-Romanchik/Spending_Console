@@ -1,9 +1,9 @@
 package org.aren_rend;
 
-public class Notes {
+public class Note {
+    private final StringBuilder note = new StringBuilder();
 
     public void createNote(SelectionScreen selectionScreen, Validator validator) {
-        StringBuilder note = new StringBuilder();
         selectionScreen.displayCategoriesMenu();
         String categoriesItem = UserInput.readLine();
         chooseCategories(categoriesItem, validator, note);
@@ -38,7 +38,7 @@ public class Notes {
                         break;
                 }
             } catch (NumberFormatException e) {
-                note.append(categoryItem.trim());
+                note.append(categoryItem.trim()).append(" : ");
             }
         }
     }
@@ -50,7 +50,7 @@ public class Notes {
 
     private void writeSpendingCost(SelectionScreen selectionScreen, StringBuilder note) {
         System.out.println(selectionScreen.getSpendingCost());
-        note.append(UserInput.readLine()).append(" : ");
+        note.append(UserInput.readLine()).append(" rub");
     }
 
     private void verificationNote(SelectionScreen selectionScreen, Validator validator, StringBuilder note) {
@@ -58,7 +58,12 @@ public class Notes {
         System.out.println(selectionScreen.getVerification());
         String verificationChoice = UserInput.readLine();
         if(verificationChoice.equals("2")) {
+            note.delete(0, note.length());
             createNote(selectionScreen, validator);
         }
+    }
+
+    public StringBuilder getNote() {
+        return note;
     }
 }
