@@ -1,4 +1,4 @@
-package org.aren_rend;
+package org.aren_rend.utilities;
 
 public class Validator {
     private final boolean isValid = true;

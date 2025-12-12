@@ -1,4 +1,7 @@
-package org.aren_rend;
+package org.aren_rend.display;
+
+import org.aren_rend.utilities.UserInput;
+import org.aren_rend.utilities.Validator;
 
 public class Note {
     private final StringBuilder note = new StringBuilder();

@@ -1,5 +1,14 @@
 package org.aren_rend;
 
+import org.aren_rend.data.SaveData;
+import org.aren_rend.display.History;
+import org.aren_rend.display.Note;
+import org.aren_rend.display.SelectionScreen;
+import org.aren_rend.utilities.UserInput;
+import org.aren_rend.utilities.Validator;
+
+import java.io.Console;
+
 public class Session {
     private boolean isApplicationWork = true;
 
@@ -7,9 +16,11 @@ public class Session {
         SelectionScreen selectionScreen = new SelectionScreen();
         Validator validator = new Validator();
         System.out.println(selectionScreen.getGreeting());
+		Console console = System.console();
 
         while(isApplicationWork) {
             selectionScreen.displayMainMenu();
+//			String menuItem = console.readLine("> ");
             String menuItem = UserInput.readLine();
             if(validator.isMenuItem(menuItem, 1, 3)) {
                 switch (menuItem) {

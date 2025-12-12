@@ -1,4 +1,4 @@
-package org.aren_rend;
+package org.aren_rend.display;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -107,7 +107,7 @@ public class SelectionScreen {
         for (String item : menu) {
             System.out.println(item);
         }
-        System.out.println();
+
     }
 
     public String getSpendingName() {

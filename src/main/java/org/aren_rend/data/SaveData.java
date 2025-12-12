@@ -1,4 +1,4 @@
-package org.aren_rend;
+package org.aren_rend.data;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -7,28 +7,46 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SaveData {
-    private static final Path filePath = Paths.get("C:/7._Projects/Spending_Console/SaveInformation.txt");
+    private static final Path filePath = Paths.get("/home/aren_rend/Programs/1_Intellij_Idea/Projects/Spending_Console/SaveInformation.txt");
 
-    public static void save(StringBuilder note) {
+	static {
+		if(!filePath.toFile().exists()) {
+			try {
+				boolean file = filePath.toFile().createNewFile();
+				if(file) {
+					System.out.println("File for data was created");
+				}
+			} catch (IOException e) {
+				throw new RuntimeException("File do not created: " + e.getMessage(), e);
+			}
+		}
+	}
+
+    public static String save(StringBuilder note) {
         if (note == null || note.isEmpty()) {
             System.out.println("Note is null!");
-            return;
+            return null;
         }
-
+		boolean isToday = false;
         try {
             String dateHeader = determineDateHeader();
-            int lineNumber = determineNextLineNumber();
+			String result = "";
 
             try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(filePath.toFile(), true))) {
 
                 if (dateHeader != null) {
+					isToday = true;
                     fileWriter.write(dateHeader);
                     fileWriter.newLine();
+					result += dateHeader + "\n";
                 }
 
-                note.insert(0, ". ").insert(0, lineNumber);
+				int lineNumber = determineNextLineNumber(isToday);
+                note.insert(0, lineNumber);
                 fileWriter.write(note.toString());
                 fileWriter.newLine();
+				result += note;
+				return result;
             }
         } catch (IOException e) {
             throw new RuntimeException("Error to file write: " + e.getMessage(), e);
@@ -54,27 +72,31 @@ public class SaveData {
         }
     }
 
-    private static int determineNextLineNumber() {
+    private static int determineNextLineNumber(boolean isToday) {
         if (!filePath.toFile().exists()) {
             return 1;
         }
+		if(isToday) {
+			return 1;
+		} else {
+			try (BufferedReader fileReader = new BufferedReader(new FileReader(filePath.toFile()))) {
+				String lastLine = "";
+				String currentLine;
 
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(filePath.toFile()))) {
-            String lastLine = "";
-            String currentLine;
+				while ((currentLine = fileReader.readLine()) != null) {
+					lastLine = currentLine;
+				}
 
-            while ((currentLine = fileReader.readLine()) != null) {
-                lastLine = currentLine;
-            }
+				if (lastLine.matches("^\\d+\\..*")) {
+					String numberPart = lastLine.substring(0, lastLine.indexOf('.'));
+					return Integer.parseInt(numberPart) + 1;
+				}
+				return 1;
 
-            if (lastLine.matches("^\\d+\\..*")) {
-                String numberPart = lastLine.substring(0, lastLine.indexOf('.'));
-                return Integer.parseInt(numberPart) + 1;
-            }
-            return 1;
+			} catch (IOException e) {
+				throw new RuntimeException("Error file read: " + e.getMessage(), e);
+			}
+		}
 
-        } catch (IOException e) {
-            throw new RuntimeException("Error file read: " + e.getMessage(), e);
-        }
     }
 }
