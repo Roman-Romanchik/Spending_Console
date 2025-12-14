@@ -36,22 +36,24 @@ public class MainMenuController implements Initializable {
 	@FXML
 	private CheckBox checkBoxOther;
 	@FXML
-	private Label labelWeekSpending;
-	@FXML
 	private Label labelMonthSpending;
 	@FXML
 	private Label labelAllSpending;
 	@FXML
 	private ListView<String> listViewForNotes;
+	@FXML
+	private TextField fieldDirectorySaveFile;
+	@FXML
+	private Button applyButton;
 
 	private final ObservableList<String> notes = FXCollections.observableArrayList();
 
-	private static final Path filePath = Paths.get("/home/aren_rend/Programs/1_Intellij_Idea/Projects/Spending_Console/SaveInformation.txt");
+	private static Path filePath;
 	MainMenuModel mmm = new MainMenuModel();
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		loadData();
+		applyDirectory();
 		loadCheckBoxes();
 	}
 
@@ -114,9 +116,9 @@ public class MainMenuController implements Initializable {
 	private void addNote() {
 		addButton.setText(mmm.changeButtonText());
 		if(checkBoxOther.isSelected()) {
-			notes.add(mmm.makeNote(fieldForOther.getText(), fieldSpendingName.getText(), fieldSpendingPrice.getText()));
+			notes.add(mmm.makeNote(fieldForOther.getText(), fieldSpendingName.getText(), fieldSpendingPrice.getText(), filePath));
 		} else {
-			notes.add(mmm.makeNote(category, fieldSpendingName.getText(), fieldSpendingPrice.getText()));
+			notes.add(mmm.makeNote(category, fieldSpendingName.getText(), fieldSpendingPrice.getText(), filePath));
 		}
 
 		updateSpendingSum();
@@ -125,6 +127,18 @@ public class MainMenuController implements Initializable {
 	private void updateSpendingSum() {
 		labelAllSpending.setText(mmm.getAllSpending(notes));
 		labelMonthSpending.setText(mmm.getMonthSpending(notes));
-		labelWeekSpending.setText(mmm.getWeekSpending(notes));
+	}
+
+	@FXML
+	private void applyDirectory() {
+		notes.clear();
+		String directory = fieldDirectorySaveFile.getText();
+		filePath = Paths.get(fieldDirectorySaveFile.getPromptText());
+		if(!directory.trim().isEmpty()) {
+			filePath = Paths.get(directory);
+		}
+		loadData();
+		updateSpendingSum();
+		applyButton.setText("Applied!");
 	}
 }

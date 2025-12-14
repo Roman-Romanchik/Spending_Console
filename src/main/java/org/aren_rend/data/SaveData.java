@@ -2,34 +2,19 @@ package org.aren_rend.data;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class SaveData {
-    private static final Path filePath = Paths.get("/home/aren_rend/Programs/1_Intellij_Idea/Projects/Spending_Console/SaveInformation.txt");
 
-	static {
-		if(!filePath.toFile().exists()) {
-			try {
-				boolean file = filePath.toFile().createNewFile();
-				if(file) {
-					System.out.println("File for data was created");
-				}
-			} catch (IOException e) {
-				throw new RuntimeException("File do not created: " + e.getMessage(), e);
-			}
-		}
-	}
-
-    public static String save(StringBuilder note) {
+    public static String save(StringBuilder note, Path filePath) {
         if (note == null || note.isEmpty()) {
             System.out.println("Note is null!");
             return null;
         }
 		boolean isToday = false;
         try {
-            String dateHeader = determineDateHeader();
+            String dateHeader = determineDateHeader(filePath);
 			String result = "";
 
             try (BufferedWriter fileWriter = new BufferedWriter(new FileWriter(filePath.toFile(), true))) {
@@ -41,7 +26,7 @@ public class SaveData {
 					result += dateHeader + "\n";
                 }
 
-				int lineNumber = determineNextLineNumber(isToday);
+				int lineNumber = determineNextLineNumber(isToday, filePath);
                 note.insert(0, lineNumber);
                 fileWriter.write(note.toString());
                 fileWriter.newLine();
@@ -53,7 +38,7 @@ public class SaveData {
         }
     }
 
-    private static String determineDateHeader() {
+    private static String determineDateHeader(Path filePath) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("---dd.MM.yyyy---");
         String currentDate = LocalDate.now().format(formatter);
 
@@ -72,7 +57,7 @@ public class SaveData {
         }
     }
 
-    private static int determineNextLineNumber(boolean isToday) {
+    private static int determineNextLineNumber(boolean isToday, Path filePath) {
         if (!filePath.toFile().exists()) {
             return 1;
         }

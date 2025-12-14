@@ -4,7 +4,6 @@ import javafx.collections.ObservableList;
 import org.aren_rend.data.SaveData;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -12,9 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainMenuModel {
-	private static final Path filePath = Paths.get("/home/aren_rend/Programs/1_Intellij_Idea/Projects/Spending_Console/SaveInformation.txt");
 	private int count = 0;
-	List<String> rangedNotes;
+
 
 	public String changeButtonText() {
 		count++;
@@ -25,7 +23,7 @@ public class MainMenuModel {
 		}
 	}
 
-	public String makeNote(String category, String spendingName, String spendingPrice) {
+	public String makeNote(String category, String spendingName, String spendingPrice, Path filePath) {
 		StringBuilder note = new StringBuilder();
 		note.append(". ")
 				.append(category)
@@ -34,11 +32,11 @@ public class MainMenuModel {
 				.append(" : ")
 				.append(spendingPrice)
 				.append(" rub");
-		return SaveData.save(note);
+		return SaveData.save(note, filePath);
 	}
 
 	public String getAllSpending(ObservableList<String> notes) {
-		return calculateSpending(notes, "All: ");
+		return calculateSpending(notes);
 	}
 
 	public String getMonthSpending(ObservableList<String> notes) {
@@ -74,12 +72,7 @@ public class MainMenuModel {
 		return "Month: " + amount;
 	}
 
-	public String getWeekSpending(ObservableList<String> notes) {
-
-		return calculateSpending(rangedNotes, "Week: ");
-	}
-
-	private String calculateSpending(List<String> notes, String label) {
+	private String calculateSpending(List<String> notes) {
 		Pattern pattern = Pattern.compile(":(\\s*)(\\d+)(\\s*)rub");
 		int amount = 0;
 		for(String note : notes) {
@@ -88,7 +81,7 @@ public class MainMenuModel {
 				amount += Integer.parseInt(matcher.group(2));
 			}
 		}
-		return label + amount;
+		return "All: " + amount;
 	}
 
 }
