@@ -4,11 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 
 import java.io.*;
 import java.net.URL;
@@ -19,40 +15,28 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.aren_rend.model.MainMenuModel;
+import org.aren_rend.utilities.Validator;
 
 public class MainMenuController implements Initializable {
 	@FXML
-	private Button addButton;
+	private Button addButton, applyButton;
 	@FXML
-	private TextField fieldSpendingName;
+	private TextField fieldSpendingName, fieldSpendingPrice, fieldForOther, fieldDirectorySaveFile;
 	@FXML
-	private TextField fieldSpendingPrice;
+	private CheckBox checkBoxFood, checkBoxSport, checkBoxOther;
 	@FXML
-	private TextField fieldForOther;
-	@FXML
-	private CheckBox checkBoxFood;
-	@FXML
-	private CheckBox checkBoxSport;
-	@FXML
-	private CheckBox checkBoxOther;
-	@FXML
-	private Label labelMonthSpending;
-	@FXML
-	private Label labelAllSpending;
+	private Label labelMonthSpending, labelAllSpending;
 	@FXML
 	private ListView<String> listViewForNotes;
-	@FXML
-	private TextField fieldDirectorySaveFile;
-	@FXML
-	private Button applyButton;
-
-	private final ObservableList<String> notes = FXCollections.observableArrayList();
-
 	private static Path filePath;
-	MainMenuModel mmm = new MainMenuModel();
+	private final ObservableList<String> notes = FXCollections.observableArrayList();
+	MainMenuModel mmm;
+	Validator validator;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
+		validator = new Validator();
+		mmm = new MainMenuModel();
 		applyDirectory();
 		loadCheckBoxes();
 	}
@@ -114,13 +98,25 @@ public class MainMenuController implements Initializable {
 
 	@FXML
 	private void addNote() {
-		addButton.setText(mmm.changeButtonText());
-		if(checkBoxOther.isSelected()) {
-			notes.add(mmm.makeNote(fieldForOther.getText(), fieldSpendingName.getText(), fieldSpendingPrice.getText(), filePath));
+		String fieldOther = fieldForOther.getText();
+		String fieldName = fieldSpendingName.getText();
+		String fieldPrice = fieldSpendingPrice.getText();
+		boolean isValidFieldOther = validator.isString(fieldOther);
+		boolean isValidFieldName = validator.isString(fieldName);
+		boolean isValidFieldPrice = validator.isNumber(fieldPrice);
+		if(isValidFieldName && isValidFieldPrice) {
+			if(checkBoxOther.isSelected() && isValidFieldOther) {
+				notes.add(mmm.makeNote(fieldOther, fieldName, fieldPrice, filePath));
+			} else {
+				notes.add(mmm.makeNote(category, fieldName, fieldPrice, filePath));
+			}
 		} else {
-			notes.add(mmm.makeNote(category, fieldSpendingName.getText(), fieldSpendingPrice.getText(), filePath));
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Error");
+			alert.setContentText("Wrong field parameter!");
+			alert.show();
 		}
-
+		addButton.setText(mmm.changeButtonText());
 		updateSpendingSum();
 	}
 

@@ -58,9 +58,6 @@ public class SaveData {
     }
 
     private static int determineNextLineNumber(boolean isToday, Path filePath) {
-        if (!filePath.toFile().exists()) {
-            return 1;
-        }
 		if(isToday) {
 			return 1;
 		} else {

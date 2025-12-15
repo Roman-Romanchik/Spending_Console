@@ -1,1 +1,1 @@
-rootProject.name = "Spending_Console"
+rootProject.name = "Spending"
