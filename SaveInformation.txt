@@ -1,0 +1,13 @@
+---14.12.2025---
+1. Food : dfg : 444 rub
+2. Food : dfg : 444 rub
+3. Food : dfg : 445 rub
+4. Sport : dgh : 55 rub
+5. Food : dfg : 44 rub
+6. Food : dfg : 445 rub
+7. Food : d : 22 rub
+8. Food : j : 6 rub
+9. Food : g : 5 rub
+10. Food : gfh : 5 rub
+11. Food : gfh : 58 rub
+12. Food : d : 4 rub
