@@ -1,7 +1,8 @@
 plugins {
     id("java")
     id("application")
-    id("org.openjfx.javafxplugin").version("0.1.0")
+    id("org.openjfx.javafxplugin") version "0.1.0"
+    id("org.springframework.boot") version "4.0.1"
 }
 
 group = "org.aren_rend"
@@ -12,40 +13,42 @@ repositories {
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation(platform("org.junit:junit-bom:5.11.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:4.0.1"))
+
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    runtimeOnly ("org.postgresql:postgresql")
 }
 
 tasks.test {
     useJUnitPlatform()
 }
+
 application {
-    mainClass = "org.aren_rend.Main"
+    mainClass.set("org.aren_rend.Launcher")
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
 }
 
 javafx {
-    version = "21.0.9"
+    version = "25.0.1"
     modules("javafx.graphics", "javafx.fxml", "javafx.controls")
 }
-tasks.register<Jar>("fatJar") {
-    archiveBaseName = "myapp-all"
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-    from(sourceSets.main.get().output)
-    dependsOn(configurations.runtimeClasspath)
-    from({
-        configurations.runtimeClasspath.get()
-            .filter { it.name.endsWith("jar") }
-            .map { zipTree(it) }
-    })
+tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    archiveFileName.set("Spending_App.jar")
+}
 
-    manifest {
-        attributes["Main-Class"] = "org.aren_rend.Main"
-    }
+tasks.withType<JavaExec>().configureEach {
+    jvmArgs(
+        "--enable-native-access=ALL-UNNAMED"
+    )
 }

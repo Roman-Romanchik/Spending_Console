@@ -1,17 +1,16 @@
 package org.aren_rend.data;
 
+import org.springframework.stereotype.Component;
+
 import java.io.*;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+@Component
 public class SaveData {
 
     public static String save(StringBuilder note, Path filePath) {
-        if (note == null || note.isEmpty()) {
-            System.out.println("Note is null!");
-            return null;
-        }
 		boolean isToday = false;
         try {
             String dateHeader = determineDateHeader(filePath);
@@ -79,6 +78,5 @@ public class SaveData {
 				throw new RuntimeException("Error file read: " + e.getMessage(), e);
 			}
 		}
-
     }
 }

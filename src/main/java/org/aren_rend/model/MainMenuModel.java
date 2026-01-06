@@ -2,6 +2,7 @@ package org.aren_rend.model;
 
 import javafx.collections.ObservableList;
 import org.aren_rend.data.SaveData;
+import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class MainMenuModel {
 	private int count = 0;
 
