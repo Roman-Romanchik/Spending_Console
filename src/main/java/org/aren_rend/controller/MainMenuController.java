@@ -16,7 +16,9 @@ import java.util.ResourceBundle;
 
 import org.aren_rend.model.MainMenuModel;
 import org.aren_rend.utilities.Validator;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MainMenuController implements Initializable {
 	@FXML
 	private Button addButton, applyButton;
